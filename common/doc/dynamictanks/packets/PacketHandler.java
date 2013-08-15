@@ -8,12 +8,10 @@ import doc.dynamictanks.items.ItemManager;
 import doc.dynamictanks.tileentity.TileEntityMultiTankSub;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
 import doc.dynamictanks.Utils.PacketUtil;
@@ -80,6 +78,8 @@ public class PacketHandler implements IPacketHandler {
 				((TileEntityMultiTankCore) variableChange).autoOutput[5] = !((TileEntityMultiTankCore) variableChange).autoOutput[5];
 			} else if (id == PacketUtil.dyed) {
                 ((TileEntityMultiTankCore) variableChange).dyeIndex = (int) value;
+            } else if (id == PacketUtil.oldScalar) {
+                ((TileEntityMultiTankCore) variableChange).oldScalarMultiplier = value;
             }
 		} else if(variableChange instanceof TileEntityMultiTankSub) {
             if (id == PacketUtil.camo) {
@@ -87,6 +87,7 @@ public class PacketHandler implements IPacketHandler {
             } else if (id == PacketUtil.meta) {
                 ((TileEntityMultiTankSub) variableChange).meta1 = (int) value;
             } else if (id == PacketUtil.scalar) {
+                ((TileEntityMultiTankSub) variableChange).getCore().scalarMultiplier = value;
                 ((TileEntityMultiTankSub) variableChange).getCore().setInventorySlotContents(1, new ItemStack(ItemManager.chipSet, 1, ItemUtils.returnMeta(value)));
                 resizeTank(((TileEntityMultiTankSub) variableChange).getCore(), ((EntityPlayer) player).worldObj);
             } else if (id == PacketUtil.dyed) {
@@ -98,7 +99,10 @@ public class PacketHandler implements IPacketHandler {
 
     public static void resizeTank(TileEntityMultiTankCore toResize, World world) {
         if (toResize != null) {
-            int calculateSize = (int) (((10 * toResize.connectingTanks) * (toResize.connectingTanks * .195)) * toResize.scalarMultiplier);//+ (int)toResize.totalTankHardness;
+            float scalMult = toResize.scalarMultiplier;
+            if (scalMult == 13.37f) scalMult = 1.0f;
+
+            int calculateSize = (int) (((10 * toResize.connectingTanks) * (toResize.connectingTanks * .195)) * scalMult);//+ (int)toResize.totalTankHardness;
             if (toResize != null && toResize.containsLiquid()) {
                 FluidStack liquid = toResize.tank.getFluid();
                 int amount = toResize.tank.getFluid().amount;// > calculateSize * LiquidContainerRegistry.BUCKET_VOLUME ? calculateSize : toResize.tank.getLiquid().amount; //Check here

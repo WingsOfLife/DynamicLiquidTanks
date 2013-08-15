@@ -1,12 +1,9 @@
 package doc.dynamictanks.Utils;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.FakePlayer;
 import doc.dynamictanks.block.BlockManager;
 import doc.dynamictanks.items.Chipset;
 import doc.dynamictanks.tileentity.TileEntityMultiTankCore;
@@ -41,6 +38,8 @@ public class ItemUtils {
 			return 5;
 		else if (value == 2.50f)
 			return 6;
+        else if (value == 13.37f)
+            return 7;
 		return -1;
 	}
 

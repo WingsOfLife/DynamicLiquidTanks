@@ -8,7 +8,6 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
 import com.google.common.collect.Lists;
 
-import doc.dynamictanks.block.BlockManager;
 import doc.dynamictanks.tileentity.TileEntityMultiTankCore;
 
 public class CoreChunkloadCallback implements ForgeChunkManager.OrderedLoadingCallback {

@@ -1,30 +1,14 @@
 package doc.dynamictanks.client.gui;
 
-import java.text.NumberFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import doc.dynamictanks.Utils.GUIUtils;
-import doc.dynamictanks.Utils.StringUtils;
 import doc.dynamictanks.Utils.TEUtil;
 import doc.dynamictanks.client.gui.Ledger.DimExtLedger;
 import doc.dynamictanks.tileentity.TileEntityMulitTankDimExt;
-import doc.dynamictanks.tileentity.TileEntityMultiTankCore;
 
 public class GuiDimExt extends DimExtLedger {
 

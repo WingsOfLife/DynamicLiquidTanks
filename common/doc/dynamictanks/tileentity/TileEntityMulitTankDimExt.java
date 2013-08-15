@@ -1,9 +1,5 @@
 package doc.dynamictanks.tileentity;
 
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -15,10 +11,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -34,9 +27,7 @@ import buildcraft.api.power.PowerHandler.Type;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
-import doc.dynamictanks.DynamicTanks;
 import doc.dynamictanks.Utils.ItemUtils;
-import doc.dynamictanks.Utils.PacketUtil;
 import doc.dynamictanks.Utils.ParticleUtils;
 import doc.dynamictanks.Utils.TEUtil;
 import doc.dynamictanks.block.BlockManager;

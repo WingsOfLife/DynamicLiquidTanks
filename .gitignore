@@ -216,3 +216,18 @@ pip-log.txt
 
 ##################################################################
 DynLiquidTanks.iml
+
+apis/assets/
+
+apis/buildcraft/builders/
+apis/buildcraft/core/
+apis/buildcraft/energy/
+apis/buildcraft/factory/
+apis/buildcraft/silicon/
+apis/buildcraft/transport/
+apis/buildcraft/BuildCraftBuilders.java
+apis/buildcraft/BuildCraftCore.java
+apis/buildcraft/BuildCraftEnergy.java
+apis/buildcraft/BuildCraftFactory.java
+apis/buildcraft/BuildCraftSilicon.java
+apis/buildcraft/BuildCraftTransport.java
