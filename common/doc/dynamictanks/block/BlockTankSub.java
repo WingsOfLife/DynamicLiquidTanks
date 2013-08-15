@@ -1,7 +1,5 @@
 package doc.dynamictanks.block;
 
-import java.util.Random;
-
 import doc.dynamictanks.packets.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -136,7 +134,6 @@ public class BlockTankSub extends BlockContainer {
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
 	public boolean onBlockActivated (World world, int x, int y, int z, EntityPlayer player, int side, float clickX, float clickY, float clickZ)
 	{
 		ItemStack heldItem = player.inventory.getCurrentItem();
@@ -170,17 +167,17 @@ public class BlockTankSub extends BlockContainer {
 			
 		}
 		else if (heldItem != null && heldItem.itemID == ItemManager.chipSet.itemID && getLocations.getCore() != null) {
-			if (getLocations.getCore().scalarMultiplier != 1.00f) {
-				if (!world.isRemote) ItemUtils.dropItem(ItemManager.chipSet.itemID, ItemUtils.returnMeta(getLocations.getCore().scalarMultiplier), world, x, y, z);
+			if(!world.isRemote) {
+                if (getLocations.getCore().oldScalarMultiplier != 1.00f)
+				    ItemUtils.dropItem(ItemManager.chipSet.itemID, ItemUtils.returnMeta(getLocations.getCore().oldScalarMultiplier), world, x, y, z);
 			}
-			
-			getLocations.getCore().scalarMultiplier = ItemUtils.chipsetMultiplier(heldItem.getItemDamage());
-			PacketUtil.sendPacketWithInt(PacketUtil.scalar, ItemUtils.chipsetMultiplier(heldItem.getItemDamage()), x, y, z);
-			
-			ItemUtils.removeSingleItem(heldItem);
-			
-			//resizeTank(getLocations.getCore());
-			world.markBlockForUpdate(x, y, z);
+
+            if(world.isRemote) {
+                PacketUtil.sendPacketWithInt(PacketUtil.oldScalar, getLocations.getCore().scalarMultiplier, getLocations.getCore().xCoord, getLocations.getCore().yCoord, getLocations.getCore().zCoord);
+			    PacketUtil.sendPacketWithInt(PacketUtil.scalar, ItemUtils.chipsetMultiplier(heldItem.getItemDamage()), getLocations.getCore().xCoord, getLocations.getCore().yCoord, getLocations.getCore().zCoord);
+            }
+            else
+			    ItemUtils.removeSingleItem(heldItem);
 		}	
 		else if (heldItem == null && getLocations.getCore() != null || !FluidContainerRegistry.isBucket(heldItem) && getLocations.getCore() != null && heldItem.itemID != Item.dyePowder.itemID) {
             player.openGui(DynamicTanks.instance, ModConfig.GUIIDs.tankCE, world, x, y, z);

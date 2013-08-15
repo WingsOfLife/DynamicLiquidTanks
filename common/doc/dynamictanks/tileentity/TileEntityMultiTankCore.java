@@ -78,6 +78,7 @@ public class TileEntityMultiTankCore extends TileEntity implements IFluidHandler
 
 	public float totalTankHardness = 10;
 	public float scalarMultiplier = 1.00f;
+    public float oldScalarMultiplier = 1.00f;
 
 	public boolean isDraining = false;
 

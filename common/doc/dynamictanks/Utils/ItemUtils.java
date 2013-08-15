@@ -94,7 +94,7 @@ public class ItemUtils {
 			TileEntityMultiTankCore tank = (TileEntityMultiTankCore) world.getBlockTileEntity(x, y, z);
 			if (tank != null) {
 				itemStack.setItemDamage(Math.round(tank.tank.getFluidAmount() * 16));
-//				System.out.println(tank.tank.getFluidAmount());
+				System.out.println(tank.tank.getFluidAmount());
 				NBTTagCompound nbt = new NBTTagCompound();
 				tank.tank.writeToNBT(nbt);
 				itemStack.setTagCompound(nbt);

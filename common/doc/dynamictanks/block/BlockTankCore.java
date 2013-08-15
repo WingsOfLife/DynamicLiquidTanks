@@ -195,7 +195,6 @@ public class BlockTankCore extends BlockContainer {
 	}
 
 	@Override
-    @SideOnly(Side.CLIENT)
 	public boolean onBlockActivated (World world, int x, int y, int z, EntityPlayer player, int side, float clickX, float clickY, float clickZ)
 	{
 		ItemStack heldItem = player.inventory.getCurrentItem();

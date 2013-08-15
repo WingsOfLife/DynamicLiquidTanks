@@ -1,6 +1,6 @@
 package doc.dynamictanks.client.gui;
 
-import doc.dynamictanks.client.gui.slots.fakeSlot;
+import doc.dynamictanks.client.gui.slots.chipsetSlot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -17,7 +17,7 @@ public class ContainerTank extends Container {
 		tileEntity = te;
 
 		addSlotToContainer(new inputSlot(inventoryPlayer.player, te, 0, 21, 102));
-		addSlotToContainer(new fakeSlot(te, 1, 63, 102));
+		addSlotToContainer(new chipsetSlot(te, 1, 63, 102));
 
 		bindPlayerInventory(inventoryPlayer);
 	}

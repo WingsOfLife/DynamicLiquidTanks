@@ -78,6 +78,8 @@ public class PacketHandler implements IPacketHandler {
 				((TileEntityMultiTankCore) variableChange).autoOutput[5] = !((TileEntityMultiTankCore) variableChange).autoOutput[5];
 			} else if (id == PacketUtil.dyed) {
                 ((TileEntityMultiTankCore) variableChange).dyeIndex = (int) value;
+            } else if (id == PacketUtil.oldScalar) {
+                ((TileEntityMultiTankCore) variableChange).oldScalarMultiplier = value;
             }
 		} else if(variableChange instanceof TileEntityMultiTankSub) {
             if (id == PacketUtil.camo) {
@@ -85,6 +87,7 @@ public class PacketHandler implements IPacketHandler {
             } else if (id == PacketUtil.meta) {
                 ((TileEntityMultiTankSub) variableChange).meta1 = (int) value;
             } else if (id == PacketUtil.scalar) {
+                ((TileEntityMultiTankSub) variableChange).getCore().scalarMultiplier = value;
                 ((TileEntityMultiTankSub) variableChange).getCore().setInventorySlotContents(1, new ItemStack(ItemManager.chipSet, 1, ItemUtils.returnMeta(value)));
                 resizeTank(((TileEntityMultiTankSub) variableChange).getCore(), ((EntityPlayer) player).worldObj);
             } else if (id == PacketUtil.dyed) {

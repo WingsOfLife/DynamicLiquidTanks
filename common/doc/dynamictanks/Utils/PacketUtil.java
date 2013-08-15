@@ -24,6 +24,7 @@ public class PacketUtil {
 	public static final int LEFT = 11;
 	public static final int RIGHT = 12;
     public static final int dyed = 13;
+    public static final int oldScalar = 14;
 
     @SideOnly(Side.CLIENT)
 	public static void sendPacketWithInt(int id, float value, int x, int y, int z) {
