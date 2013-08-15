@@ -1,19 +1,11 @@
 package doc.dynamictanks.Utils;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class PacketUtil {
@@ -32,6 +24,7 @@ public class PacketUtil {
 	public static final int LEFT = 11;
 	public static final int RIGHT = 12;
     public static final int dyed = 13;
+    public static final int oldScalar = 14;
 
     @SideOnly(Side.CLIENT)
 	public static void sendPacketWithInt(int id, float value, int x, int y, int z) {
@@ -54,5 +47,6 @@ public class PacketUtil {
 
 		PacketDispatcher.sendPacketToServer(packet);
 	}
+
 
 }

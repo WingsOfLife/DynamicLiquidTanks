@@ -2,6 +2,7 @@ package doc.dynamictanks.block;
 
 import java.util.ArrayList;
 
+import doc.dynamictanks.tileentity.TileEntityMultiTankSub;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -178,7 +179,7 @@ public class BlockTankCore extends BlockContainer {
 		ItemStack heldItem = par5EntityPlayer.inventory.getCurrentItem();
 		TileEntityMultiTankCore getLocations = (TileEntityMultiTankCore) par1World.getBlockTileEntity(x, y, z);
 
-		if (par5EntityPlayer.isSneaking() && heldItem != null && Block.blocksList[heldItem.itemID] != null && Block.blocksList[heldItem.itemID].getBlockTextureFromSide(1) != null) {
+		if (par5EntityPlayer.isSneaking() && heldItem != null && heldItem.itemID < 4096 && Block.blocksList[heldItem.itemID] != null && Block.blocksList[heldItem.itemID].getBlockTextureFromSide(1) != null) {
 			getLocations.side1 = heldItem.itemID;
 			getLocations.meta1 = heldItem.getItemDamage();
 			PacketUtil.sendPacketWithInt(PacketUtil.camo, heldItem.itemID, x, y, z);
@@ -194,7 +195,6 @@ public class BlockTankCore extends BlockContainer {
 	}
 
 	@Override
-    @SideOnly(Side.CLIENT)
 	public boolean onBlockActivated (World world, int x, int y, int z, EntityPlayer player, int side, float clickX, float clickY, float clickZ)
 	{
 		ItemStack heldItem = player.inventory.getCurrentItem();
@@ -307,24 +307,69 @@ public class BlockTankCore extends BlockContainer {
 		}
 	}
 
-	/*@Override
-	public boolean shouldSideBeRendered (IBlockAccess world, int x, int y, int z, int side)
-	{
-		int bID = world.getBlockId(x, y, z);
-		return bID == this.blockID &&  shouldSideRender(world, x, y, z) ? false : super.shouldSideBeRendered(world, x, y, z, side);
-	}*/
+
 	@Override
 	public boolean shouldSideBeRendered (IBlockAccess world, int x, int y, int z, int side)
 	{
-		int bID = world.getBlockId(x, y, z);
-		return (bID == this.blockID || bID == BlockManager.tankSub.blockID) /*&& shouldSideRender(world, x, y, z)*/ ? false : super.shouldSideBeRendered(world, x, y, z, side);
+        return shouldSideRender(world, x, y, z, side) ? false : super.shouldSideBeRendered(world, x, y, z, side);
 	}
 
 
-	public boolean shouldSideRender(IBlockAccess world, int x, int y, int z) {
-		TileEntityMultiTankCore check = (TileEntityMultiTankCore) world.getBlockTileEntity(x, y, z);
-		return check.side0 == -1 && check.side1 == -1 && check.side2 == -1 && check.side3 == -1 && check.side4 == -1 && check.side5 == -1 ? true : false;
-	}
+    public boolean shouldSideRender(IBlockAccess world, int x, int y, int z, int side)
+    {
+        ForgeDirection dir = ForgeDirection.getOrientation(side).getOpposite();
+
+        if(world.getBlockId(x, y, z) == this.blockID || world.getBlockId(x, y, z) == BlockManager.tankSub.blockID) {
+            TileEntity tmpTile = world.getBlockTileEntity(x, y, z);
+            if(tmpTile instanceof TileEntityMultiTankCore) {
+                TileEntityMultiTankCore tile = (TileEntityMultiTankCore) tmpTile;
+
+                if(world.getBlockId(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == this.blockID ||
+                        world.getBlockId(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == BlockManager.tankSub.blockID) {
+
+                    TileEntity fTmpTile = world.getBlockTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+
+                    if(fTmpTile instanceof TileEntityMultiTankCore) {
+                        TileEntityMultiTankCore fTile = (TileEntityMultiTankCore) fTmpTile;
+
+                        if(tile.side1 == -1 && fTile.side1 != -1)
+                            return false;
+                    }
+                    else if(fTmpTile instanceof TileEntityMultiTankSub) {
+                        TileEntityMultiTankSub fTile = (TileEntityMultiTankSub) fTmpTile;
+
+                        if(tile.side1 == -1 && fTile.side1 != -1)
+                            return false;
+                    }
+                }
+            }
+            else if(tmpTile instanceof TileEntityMultiTankSub) {
+                TileEntityMultiTankSub tile = (TileEntityMultiTankSub) tmpTile;
+
+                if(world.getBlockId(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == this.blockID ||
+                        world.getBlockId(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == BlockManager.tankSub.blockID) {
+
+                    TileEntity fTmpTile = world.getBlockTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+
+                    if(fTmpTile instanceof TileEntityMultiTankCore) {
+                        TileEntityMultiTankCore fTile = (TileEntityMultiTankCore) fTmpTile;
+
+                        if(tile.side1 == -1 && fTile.side1 != -1)
+                            return false;
+                    }
+                    else if(fTmpTile instanceof TileEntityMultiTankSub) {
+                        TileEntityMultiTankSub fTile = (TileEntityMultiTankSub) fTmpTile;
+
+                        if(tile.side1 == -1 && fTile.side1 != -1)
+                            return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
 
 	@Override
 	public int getLightValue (IBlockAccess world, int x, int y, int z)

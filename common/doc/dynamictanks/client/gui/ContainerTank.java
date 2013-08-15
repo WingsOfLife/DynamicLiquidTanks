@@ -1,11 +1,11 @@
 package doc.dynamictanks.client.gui;
 
+import doc.dynamictanks.client.gui.slots.chipsetSlot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import doc.dynamictanks.client.gui.slots.inputChipset;
 import doc.dynamictanks.client.gui.slots.inputSlot;
 import doc.dynamictanks.tileentity.TileEntityMultiTankCore;
 
@@ -17,7 +17,7 @@ public class ContainerTank extends Container {
 		tileEntity = te;
 
 		addSlotToContainer(new inputSlot(inventoryPlayer.player, te, 0, 21, 102));
-		addSlotToContainer(new inputChipset(inventoryPlayer.player, te, 1, 63, 102));
+		addSlotToContainer(new chipsetSlot(te, 1, 63, 102));
 
 		bindPlayerInventory(inventoryPlayer);
 	}
