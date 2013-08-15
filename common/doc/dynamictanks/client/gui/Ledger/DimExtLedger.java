@@ -1,19 +1,13 @@
 package doc.dynamictanks.client.gui.Ledger;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 import doc.dynamictanks.Utils.GUIUtils;
 import doc.dynamictanks.Utils.StringUtils;
-import doc.dynamictanks.Utils.TEUtil;
 import doc.dynamictanks.client.gui.ContainerDimExt;
 import doc.dynamictanks.tileentity.TileEntityMulitTankDimExt;
 import doc.dynamictanks.tileentity.TileEntityMultiTankCore;

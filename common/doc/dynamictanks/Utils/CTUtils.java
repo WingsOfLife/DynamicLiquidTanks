@@ -155,5 +155,14 @@ public class CTUtils {
 	public static Icon blockIcon(int blockId, int side, int meta) {
 		return Block.blocksList[blockId].getIcon(side, meta);
 	}
-	
+
+    private static int[] transBlockIds = {18, 20};
+    public static boolean isCamoTransparent(int camoId)
+    {
+        for(int i=0; i<transBlockIds.length; i++) {
+            if(camoId == transBlockIds[i])
+                return true;
+        }
+        return false;
+    }
 }

@@ -1,9 +1,5 @@
 package doc.dynamictanks.client.particle;
 
-import java.awt.Color;
-import java.util.Random;
-
-import doc.dynamictanks.Utils.MiscUtils;
 import doc.dynamictanks.client.gui.GuiDimExt;
 
 import net.minecraft.block.Block;

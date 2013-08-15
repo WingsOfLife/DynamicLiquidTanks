@@ -3,8 +3,6 @@ package doc.dynamictanks.client.particle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 public class ParticleEffects {
 	private static Minecraft mc = Minecraft.getMinecraft();

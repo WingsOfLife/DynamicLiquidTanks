@@ -1,19 +1,12 @@
 package doc.dynamictanks.client.gui.Ledger;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-import doc.dynamictanks.Utils.GUIUtils;
 import doc.dynamictanks.Utils.PacketUtil;
-import doc.dynamictanks.Utils.StringUtils;
-import doc.dynamictanks.Utils.TEUtil;
-import doc.dynamictanks.client.gui.ContainerDimExt;
 import doc.dynamictanks.client.gui.ContainerTank;
 import doc.dynamictanks.items.ItemManager;
-import doc.dynamictanks.tileentity.TileEntityMulitTankDimExt;
 import doc.dynamictanks.tileentity.TileEntityMultiTankCore;
 
 public abstract class MultiTankCoreLedger extends LedgerGui {
@@ -82,8 +75,8 @@ public abstract class MultiTankCoreLedger extends LedgerGui {
 		public boolean handleMouseClicked(int x, int y, int mouseButton) {
 			super.handleMouseClicked(x, y, mouseButton);
 			if (mouseButton == 0) {
-				System.out.println(TOPX + " x " + x);
-				System.out.println(TOPY + " x " + y);
+//				System.out.println(TOPX + " x " + x);
+//				System.out.println(TOPY + " x " + y);
 				if ((x > TOPX && x < TOPX + 16) && (y > TOPY && y < scaledY + 83 + 16)) { //TOP
 					engine.autoOutput[0] = setValue(engine.autoOutput[0]);
 					PacketUtil.sendPacketWithInt(PacketUtil.TOP, 0, engine.xCoord, engine.yCoord, engine.zCoord);

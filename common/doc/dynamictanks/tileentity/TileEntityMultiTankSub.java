@@ -191,7 +191,7 @@ public class TileEntityMultiTankSub extends TileEntity implements IFluidHandler,
 			TEUtil.setCoreBNSub(worldObj, xCoord, yCoord, zCoord);
 			if (getCore() != null && worldObj.getBlockTileEntity(coreX, coreY, coreZ) instanceof TileEntityMultiTankCore) {
 				getCore().connectingTanks++;
-				resizeTank(getCore());
+                PacketUtil.sendPacketWithInt(PacketUtil.scalar, getCore().scalarMultiplier, getCore().xCoord, getCore().yCoord, getCore().zCoord);
 				worldObj.markBlockForUpdate(coreX, coreY, coreZ);
 			}
 		}

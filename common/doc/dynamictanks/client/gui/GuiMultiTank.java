@@ -4,24 +4,14 @@ import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import doc.dynamictanks.Utils.GUIUtils;
 import doc.dynamictanks.Utils.PacketUtil;
-import doc.dynamictanks.Utils.StringUtils;
 import doc.dynamictanks.Utils.TEUtil;
 import doc.dynamictanks.client.gui.Ledger.MultiTankCoreLedger;
 import doc.dynamictanks.common.ModConfig;
@@ -47,7 +37,7 @@ public class GuiMultiTank extends MultiTankCoreLedger {
 
 	public GuiMultiTank(InventoryPlayer playerInventory, TileEntityMultiTankCore teCore)	{
 		super(new ContainerTank(playerInventory, teCore), teCore);
-		
+
 		this.tileEntity = teCore;
 		this.displayIndex = tileEntity.selectPostion;
 		
@@ -76,7 +66,7 @@ public class GuiMultiTank extends MultiTankCoreLedger {
 	@Override
 	public void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		int x = (width - 176) / 2;
-		int y = (height - 220) / 2;	
+		int y = (height - 220) / 2;
 
 		mc.func_110434_K().func_110577_a(Tank_Gui);
 		drawTexturedModalRect(x, y, 0, 0, 176, 220);

@@ -14,9 +14,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class Chipset extends Item {
 	
 	public static String[] names = { "Coal", "Iron", "Gold", "Lapis", "Diamond", "Emerald", "Starry", "Auto-Output" };
-	public static float[] multi = { 1.05f, 1.25f, 1.50f, 1.75f, 2.00f, 2.15f, 2.50f, 1.00f };
+	public static float[] multi = { 1.05f, 1.25f, 1.50f, 1.75f, 2.00f, 2.15f, 2.50f, 13.37f };
 	public static String[] multiStr = { "1.05", "1.25", "1.50", "1.75", "2.00", "2.15", "2.50", "Output Liquids" };
-	Icon[] icons = new Icon[8]; //coal, iron, gold, lapis, diamond, emerald, starry;
+	Icon[] icons = new Icon[8]; //coal, iron, gold, lapis, diamond, emerald, starry, output;
 	
 	public Chipset(int id) {
 		super(id);

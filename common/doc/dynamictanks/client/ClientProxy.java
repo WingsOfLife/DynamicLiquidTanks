@@ -1,7 +1,6 @@
 package doc.dynamictanks.client;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.settings.KeyBinding;
@@ -13,13 +12,11 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import doc.dynamictanks.block.BlockManager;
 import doc.dynamictanks.client.gui.GuiDimExt;
 import doc.dynamictanks.client.gui.GuiMultiTank;
-import doc.dynamictanks.client.render.MultiTankLiquidRenderer;
 import doc.dynamictanks.client.render.RenderTank;
 import doc.dynamictanks.client.render.RenderTankCoreItem;
 import doc.dynamictanks.common.CommonProxy;
