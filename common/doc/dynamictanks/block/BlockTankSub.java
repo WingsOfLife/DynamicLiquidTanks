@@ -28,7 +28,6 @@ import doc.dynamictanks.Utils.ItemUtils;
 import doc.dynamictanks.Utils.PacketUtil;
 import doc.dynamictanks.Utils.TEUtil;
 import doc.dynamictanks.client.ClientProxy;
-import doc.dynamictanks.client.KeyBinderCamo;
 import doc.dynamictanks.common.ModConfig;
 import doc.dynamictanks.items.ItemManager;
 import doc.dynamictanks.tileentity.TileEntityMultiTankCore;
@@ -76,7 +75,7 @@ public class BlockTankSub extends BlockContainer {
 	}
 
 	@Override
-	public boolean hasTileEntity() {
+	public boolean hasTileEntity(int meta) {
 		return true;
 	}
 
@@ -96,7 +95,7 @@ public class BlockTankSub extends BlockContainer {
 		TEUtil.setCoreBNCore(world, x, y, z);
 		TEUtil.setCoreBNSub(world, x, y, z);
 		if (((TileEntityMultiTankSub) world.getBlockTileEntity(x, y, z)).getCore() != null && ((TileEntityMultiTankSub) world.getBlockTileEntity(x, y, z)).getCore() != null) {
-			((TileEntityMultiTankSub) world.getBlockTileEntity(x, y, z)).getCore().connectingTanks++;
+			((TileEntityMultiTankSub) world.getBlockTileEntity(x, y, z)).getCore().connectingTanks += 1;
             PacketHandler.resizeTank(((TileEntityMultiTankSub) world.getBlockTileEntity(x, y, z)).getCore(), world);
 		}
 	}
@@ -107,7 +106,7 @@ public class BlockTankSub extends BlockContainer {
 		if (((TileEntityMultiTankSub) par1World.getBlockTileEntity(x, y, z)).getCore() != null) {
 			TileEntityMultiTankCore myCore = ((TileEntityMultiTankSub) par1World.getBlockTileEntity(x, y, z)).getCore();
 			//myCore.totalTankHardness = myCore.totalTankHardness - (block.blockHardness);// - 1.5);
-			myCore.connectingTanks--;
+			myCore.connectingTanks -= 1;
 			myCore.updateMe(par1World);
 			PacketHandler.resizeTank(((TileEntityMultiTankSub) par1World.getBlockTileEntity(x, y, z)).getCore(), par1World);
 		}		
@@ -121,7 +120,7 @@ public class BlockTankSub extends BlockContainer {
 		ItemStack heldItem = par5EntityPlayer.inventory.getCurrentItem();
 		TileEntityMultiTankSub getLocations = (TileEntityMultiTankSub) par1World.getBlockTileEntity(x, y, z);
 		
-		if (par5EntityPlayer.isSneaking() && heldItem != null && Block.blocksList[heldItem.itemID] != null && Block.blocksList[heldItem.itemID].getBlockTextureFromSide(1) != null) {
+		if (par5EntityPlayer.isSneaking() && heldItem != null && heldItem.itemID < 4096 && Block.blocksList[heldItem.itemID] != null && Block.blocksList[heldItem.itemID].getBlockTextureFromSide(1) != null) {
 			getLocations.side1 = heldItem.itemID;
 			getLocations.meta1 = heldItem.getItemDamage();
 			PacketUtil.sendPacketWithInt(PacketUtil.camo, heldItem.itemID, x, y, z);
@@ -183,8 +182,8 @@ public class BlockTankSub extends BlockContainer {
 			//resizeTank(getLocations.getCore());
 			world.markBlockForUpdate(x, y, z);
 		}	
-		else if (heldItem == null || !FluidContainerRegistry.isBucket(heldItem) && getLocations.getCore() != null && heldItem.itemID != Item.dyePowder.itemID) {
-			player.openGui(DynamicTanks.instance, ModConfig.GUIIDs.tankCE, world, x, y, z);
+		else if (heldItem == null && getLocations.getCore() != null || !FluidContainerRegistry.isBucket(heldItem) && getLocations.getCore() != null && heldItem.itemID != Item.dyePowder.itemID) {
+            player.openGui(DynamicTanks.instance, ModConfig.GUIIDs.tankCE, world, x, y, z);
 			return true;
 		} 
 		else if (heldItem != null)
@@ -285,9 +284,64 @@ public class BlockTankSub extends BlockContainer {
 	@Override
 	public boolean shouldSideBeRendered (IBlockAccess world, int x, int y, int z, int side)
 	{
-		int bID = world.getBlockId(x, y, z);
-		return (bID == this.blockID || bID == BlockManager.tankCore.blockID) /*&& shouldSideRender(world, x, y, z)*/ ? false : super.shouldSideBeRendered(world, x, y, z, side);
+		return shouldSideRender(world, x, y, z, side) ? false : super.shouldSideBeRendered(world, x, y, z, side);
 	}
+
+    public boolean shouldSideRender(IBlockAccess world, int x, int y, int z, int side)
+    {
+        ForgeDirection dir = ForgeDirection.getOrientation(side).getOpposite();
+
+        if(world.getBlockId(x, y, z) == this.blockID || world.getBlockId(x, y, z) == BlockManager.tankCore.blockID) {
+            TileEntity tmpTile = world.getBlockTileEntity(x, y, z);
+            if(tmpTile instanceof TileEntityMultiTankCore) {
+                TileEntityMultiTankCore tile = (TileEntityMultiTankCore) tmpTile;
+
+                if(world.getBlockId(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == this.blockID ||
+                        world.getBlockId(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == BlockManager.tankCore.blockID) {
+
+                    TileEntity fTmpTile = world.getBlockTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+
+                    if(fTmpTile instanceof TileEntityMultiTankCore) {
+                        TileEntityMultiTankCore fTile = (TileEntityMultiTankCore) fTmpTile;
+
+                        if(tile.side1 == -1 && fTile.side1 != -1)
+                            return false;
+                    }
+                    else if(fTmpTile instanceof TileEntityMultiTankSub) {
+                        TileEntityMultiTankSub fTile = (TileEntityMultiTankSub) fTmpTile;
+
+                        if(tile.side1 == -1 && fTile.side1 != -1)
+                            return false;
+                    }
+                }
+            }
+            else if(tmpTile instanceof TileEntityMultiTankSub) {
+                TileEntityMultiTankSub tile = (TileEntityMultiTankSub) tmpTile;
+
+                if(world.getBlockId(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == this.blockID ||
+                        world.getBlockId(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == BlockManager.tankCore.blockID) {
+
+                    TileEntity fTmpTile = world.getBlockTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+
+                    if(fTmpTile instanceof TileEntityMultiTankCore) {
+                        TileEntityMultiTankCore fTile = (TileEntityMultiTankCore) fTmpTile;
+
+                        if(tile.side1 == -1 && fTile.side1 != -1)
+                            return false;
+                    }
+                    else if(fTmpTile instanceof TileEntityMultiTankSub) {
+                        TileEntityMultiTankSub fTile = (TileEntityMultiTankSub) fTmpTile;
+
+                         if(tile.side1 == -1 && fTile.side1 != -1)
+                            return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
 
 	@Override
 	public int getLightValue (IBlockAccess world, int x, int y, int z)
@@ -319,30 +373,6 @@ public class BlockTankSub extends BlockContainer {
 		this.blockIcon = iconRegister.registerIcon("dynamictanks:single");
 	}
 
-	public void updateTick(World par1World, int x, int y, int z, Random rand) {
-		/*par1World.markBlockForUpdate(x, y, z);
-		if (((TileEntityMultiTankSub) par1World.getBlockTileEntity(x, y, z)).getCore() == null) {
-			TEUtil.setCoreBNCore(par1World, x, y, z);
-			TEUtil.setCoreBNSub(par1World, x, y, z);
-			if (((TileEntityMultiTankSub) par1World.getBlockTileEntity(x, y, z)).getCore() != null) {
-				((TileEntityMultiTankSub) par1World.getBlockTileEntity(x, y, z)).getCore().connectingTanks++;
-				resizeTank(((TileEntityMultiTankSub) par1World.getBlockTileEntity(x, y, z)).getCore());
-				par1World.markBlockForUpdate(x, y, z);
-			}
-			par1World.markBlockForUpdate(x, y, z);
-		} */
-	}
-
-	@Override
-	public int tickRate(World par1World)
-	{
-		return 2;
-	}
-
-	/*public boolean shouldSideRender(IBlockAccess world, int x, int y, int z) {
-		TileEntityMultiTankSub check = (TileEntityMultiTankSub) world.getBlockTileEntity(x, y, z);
-		return check.side0 == -1 && check.side1 == -1 && check.side2 == -1 && check.side3 == -1 && check.side4 == -1 && check.side5 == -1 ? true : false;
-	}*/
 	//TODO
 
 

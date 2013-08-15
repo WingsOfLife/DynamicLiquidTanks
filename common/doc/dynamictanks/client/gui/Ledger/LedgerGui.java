@@ -3,7 +3,6 @@ package doc.dynamictanks.client.gui.Ledger;
 import java.util.ArrayList;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
@@ -11,10 +10,6 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
-
-import doc.dynamictanks.client.gui.ContainerDimExt;
-import doc.dynamictanks.tileentity.TileEntityMulitTankDimExt;
-import doc.dynamictanks.tileentity.TileEntityMultiTankCore;
 
 public abstract class LedgerGui extends GuiContainer {
 

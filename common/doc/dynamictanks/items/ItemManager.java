@@ -9,6 +9,8 @@ import doc.dynamictanks.common.ModConfig;
 
 public class ItemManager {
 
+    public static int outputChipMeta = 7;
+
 	public static Item chipSet = null;
 	public static Item linkCard = null;
 	

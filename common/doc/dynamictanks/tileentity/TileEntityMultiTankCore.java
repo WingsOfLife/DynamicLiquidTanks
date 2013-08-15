@@ -19,7 +19,6 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -61,7 +60,7 @@ public class TileEntityMultiTankCore extends TileEntity implements IFluidHandler
 
 	public ForgeDirection lastFilledDirection = ForgeDirection.UNKNOWN;
 	
-	public boolean[] autoOutput = { false, false, false, false, false, false }; //TOP FRONT BOTTOM BACK LEFT RIGHT
+	public static boolean[] autoOutput = { false, false, false, false, false, false }; //TOP FRONT BOTTOM BACK LEFT RIGHT
 
 	public FluidTank tank;
 
@@ -154,9 +153,6 @@ public class TileEntityMultiTankCore extends TileEntity implements IFluidHandler
 	@Override
 	public FluidStack drain (ForgeDirection from, FluidStack resource, boolean doDrain)
 	{
-		/*		if (resource == null || !resource.isFluidEqual(tank.getFluid())) {
-			return null;
-		}*/
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		return getTopTank().tank.drain(resource.amount, doDrain);
 	}
@@ -415,7 +411,7 @@ public class TileEntityMultiTankCore extends TileEntity implements IFluidHandler
 				int toDistribute = FluidContainerRegistry.BUCKET_VOLUME; // MiscUtils.countTrue(autoOutput);
 				if (tank.getFluid() == null)
 					return;
-				
+
 				FluidStack toAdd = new FluidStack(this.tank.getFluid(), toDistribute);
 				if (autoOutput[0] && tank.getFluid().amount - toDistribute >= 0) MiscUtils.getBlockTop(toAdd, this, worldObj, xCoord, yCoord, zCoord);
 				if (autoOutput[1] && tank.getFluid().amount - toDistribute >= 0) MiscUtils.getBlockNorth(toAdd, this, worldObj, xCoord, yCoord, zCoord);
