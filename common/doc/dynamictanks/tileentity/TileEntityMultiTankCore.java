@@ -221,7 +221,7 @@ public class TileEntityMultiTankCore extends TileEntity implements IFluidHandler
 		if (containsLiquid())
 		{
 			int id = tank.getFluid().getFluid().getBlockID();
-			if (id < 4096)
+			if (id > 0 && id < 4096)
 			{
 				return Block.lightValue[id];
 			}
